@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+path {
+  stroke-linejoin: round;
+}
+.points{
+fill:black;	
+	
+}
+.land {
+  fill: #ddd;
+}
+
+.states {
+  stroke: #222222;
+}
+.legendEntry {
+  font-size: 12px;
+}
+.counties {
+  fill: none;
+  stroke: black;
+  stroke-width: 0.5px;
+}
+</style>
+<body>
+<h1>Average Annual Income by State 2014</h1>
+<p> Data comes from the <a href=" http://kff.org/other/state-indicator/median-annual-income/", target="_blank">Kaiser Family Foundation</a></p>
+
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script>
+var width = 1000,
+    height = 500;
+//Data on 2014 median annaul income taken from the Kaiser Family Foundation, http://kff.org/other/state-indicator/median-annual-income/
+var data=[{"16":53438, //ID
+			"53":59068, //WA
+			"27":67244, //MN
+			"38":60730, //ND
+			"23":51710, //ME
+			"26":52005,//Michigan
+			"55":58080,//WI
+			"30":51102,//MT
+			"41":58875, //OR
+			"46":53053, //SD
+			"33":73397, //NH
+			"50":50708, //VT
+			"36":54310, //NY
+			"56":55690,//WO
+			"19":57810,//IA
+			"31":56870,//NE
+			"25":63151,//MA
+			"17":54916,//IL
+			"42":55173,//PA
+			"9":70161,//CT 
+			"44":58633,//RI
+			"6":60487,//CA
+			"49":63383,//UT
+			"32":49875,//NV
+			"39":49644,//OH
+			"18":48060,//IN
+			"34":65243,//NJ 
+			"8":60940, //CO
+			"54":39552,//WV
+			"29":56630,//MO
+			"20":53444,//KS
+			"10":57522,//DE
+			"24":76165,//MD
+			"21":42786,//KY
+			"51":66155,//VA
+			"11":68277,//DC?
+			"4":49254,//AZ 
+			"40":47199,//OK
+			"35":46686,//NM
+			"47":43716,//TN
+			"37":46784,//NC
+			"48":53875,//TX 
+			"5":44922, //AR
+			"45":44929,//SC
+			"1":42278,//AL
+			"13":49555,//GA
+			"28":35521,//MS
+			"22":42406,//LA also?
+			"12":46140,//FL
+			"15":71223, //HI
+			"2":67629//,// AK
+			//"72":19518//PR THIS DATA FROM U.S. CENSUS http://www.census.gov/newsroom/press-releases/2014/cb14-17.html Removed because 
+			//outliar status skewed results
+			}];//?guam? ?samoa? //removed because skewed results and also too hard to see. also no 2014 data could be found
+
+
+
+	
+var projection = d3.geo.albers();
+
+var path = d3.geo.path()
+    .projection(projection)
+	.pointRadius(1);
+
+var color_scale = d3.scale.quantize()
+  .domain(d3.values(data[0]).sort(d3.ascending))
+  .range(["#bae4bc","#7bccc4","#43a2ca","#0868ac"]);	
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+queue()
+    .defer(d3.json, "us.json")
+    .await(ready);
+
+function ready(error, us) {
+  svg.append("path")
+      .datum(topojson.feature(us, us.objects.land))
+      .attr("class", "land")
+      .attr("d", path);    
+
+ svg.append("g")
+      .attr("class", "states")
+      .selectAll("path")
+      .data(topojson.feature(us, us.objects.states).features)
+      .enter()
+      .append("path")
+      .attr("d", path)
+	   .style("fill", function(d){return color_scale(data[0][d.id]);});
+	 
+svg.append("path")
+      .attr("class", "counties")
+      //.selectAll("path")
+      .data(topojson.feature(us, us.objects.counties).features)
+      .enter()
+      .append("path")
+      .attr("d", path)
+	   .style("fill", function(d){return color_scale(data[0][d.id]);});
+ //svg.append("path")
+   //   .data(topojson.feature(us, us.objects.counties).features)
+     // .enter()
+	  //.attr("class", "counties")
+      //.attr("d", function(d) { return "M" + d.map(function(d) { return d.join("L"); }).join("ZM") + "Z"; });	 
+var legend = svg.selectAll('g.legendEntry')
+    .data(color_scale.range().reverse())
+    .enter()
+    .append('g').attr('class', 'legendEntry');
+
+legend
+    .append('rect')
+    .attr("x", width - 985)
+    .attr("y", function(d, i) {
+       return i * 20;
+    })
+   .attr("width", 10)
+   .attr("height", 10)
+   .style("stroke", "black")
+   .style("stroke-width", 1)
+   .style("fill", function(d){return d;}); 
+
+   myformat = d3.format(',')
+   
+legend
+    .append('text')
+    .attr("x", width - 965) //leave 5 pixel space after the <rect>
+    .attr("y", function(d, i) {
+       return i * 20;
+    })
+    .attr("dy", "0.8em") //place text one line *below* the x,y point
+    .text(function(d,i) {
+        var extent = color_scale.invertExtent(d);        
+        return "$" + myformat(Math.round(extent[0])) + " - $" + myformat(Math.round(extent[1]));
+    });
+}
+
+</script>
+</body>
+</html>
