@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	  <meta charset="utf-8">
+	    <title>Library Juice Week One Homework</title>
+		  <script type="text/javascript" src="d3/d3.js" charset="utf-8"></script>
+		   <style type="text/css">
+		   .axis path,
+		   .axis line {
+		     fill: none;
+			 stroke: black;
+			 shape-rendering: crispEdges;
+		   }
+		   
+		   .axis text {
+		     font-family: sans-serif;
+			 font-size: 11px;
+		   }
+            </style>
+	</head>
+	<body>
+	<h1>Library Juice Week 1 Homework Corrected </h1>
+	    <script type="text/javascript">
+		   //for width height
+		  var w = 800;
+		  var h = 600;
+		  var Padding = 30;
+		  
+		    
+		  
+		  //data
+		  var dataset = [{"Quantity":"100","fruits":"Apples"},{"Quantity":"60","fruits":"Pears"},{"Quantity":"70","fruits":"Tangerines"},{"Quantity":"90","fruits":"Pomegranates"},{"Quantity":"50","fruits":"Oranges"}]; 
+		 
+		 var xScale = d3.scale.ordinal()
+							  .domain(dataset.map(function(d, i) { return d.fruits; }))
+							  // .domain(["A", "B", "C", "D", "E", "F"])
+                              .rangeBands([Padding , w]);
+   
+//   alert(xScale.domain());
+							  // .rangeRoundBands([Padding, w - Padding]);
+							   
+		  var yScale = d3.scale.linear()
+							   .domain([0, 100])
+							   .range([h - Padding,  Padding]);
+		  
+		  
+		  
+		 
+			//create the svg
+   		  var svg = d3.select("body")
+		  .append("svg")
+		  .attr("width", w)
+		  .attr("height", h);
+		  
+		  		  var xAxis = d3.svg.axis()
+						   .scale(xScale)
+						   .orient("bottom")
+						   .ticks(5);
+		  
+		  var yAxis = d3.svg.axis()
+						   .scale(yScale)
+						   .orient("left")
+						   .ticks(5);
+
+	
+		
+	   svg.selectAll('.chart') /// Here we select the CSS class chart. (Remember we assigned it earlier?)
+    .data(dataset) //Bind the chart to data.
+    .enter()
+    .append('rect') // add SVG rectangles
+    //.attr('class', 'bar') // Add a CSS class
+    .attr('x', function(d) { return xScale(d.fruits) ; } ) /// A reference to valriables on x scale
+    .attr('y',  function(d) { return yScale(d.Quantity) } )
+    /// Specification how tall bars should be in pixels
+    .attr('width', w / dataset.length - Padding) // Width of bar charts
+    .attr('height', function(d) { return (h - Padding) - yScale(d.Quantity) })
+    .attr("fill", "steelblue"); //height of bars in pixel
+
+svg.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate(0," + (h - Padding ) + ")")
+			.call(xAxis);
+			
+		svg.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate(" +  Padding + ", 0)")
+			.call(yAxis);
+			
+		/*  svg.selectAll(".rect")
+		  .data(dataset)
+		  .enter()
+		  .append("rect")
+		  .attr("x", function(d,i){ return xScale(d.fruits) ;})
+		  .attr("y", function(d){ return yScale(d.Quantity);})
+		  .attr("width", w / dataset.length - Padding)
+		  .attr("height", function(d){return yScale(d.Quantity);})
+		  .attr("fill", "steelblue");*/
+		  
+/*	svg.selectAll(".rect") /// select all DOM elements that have rect class
+     .data(data) /// bind to data
+     .enter().append("svg:text") //append text labels with values
+     .attr("x", function(d) { return x(new Date(d.date)); }) // position
+     .attr("y", function(d) { return y(d.total); })/// position of the text label
+     .attr("dx", "0.5em") // padding-right
+     .attr("dy", "1.50em") // padding-left
+     .attr("text-anchor", "left") // text-align: left
+     .text(function(d) { return d.total }); /// Text		
+	*/	  
+
+
+
+		 
+		 svg.selectAll("text")
+		 .data(dataset)
+		 .enter()
+		 .append("text")
+		  .text(function(d) { return d.fruits + ": " + d.Quantity ;})
+		  .attr("x", function(d, i) {
+		  return i * (w / dataset.length) + 5;
+		  })
+		  .attr("y", function(d){
+		  return h - (d.Quantity) + 15;
+		  })
+		  .attr("font-family", "sans-serif")
+		  .attr("font-size", "11px")
+		  .attr("fill", "white")
+		  .attr("text-anchor", "middle")
+		  .attr("x", function(d, i) {
+		    return i * ( w /dataset.length) + (w / dataset.length - Padding) /2;
+		  })
+		  .attr("y", function(d) {
+		    return h - (d.Quantity) + 14;
+		  });
+		 
+		
+		
+		</script>
+	</body>
+</html>
