@@ -1,0 +1,302 @@
+<html>
+<head>
+<!-- Force IE to display in most recent version -->
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+
+
+<title>Faculty Collaborations</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="http://library.med.nyu.edu/fbapi/css/normalize.css">
+<link rel="stylesheet" type="text/css" href="http://library.med.nyu.edu/fbapi/css/main.css">
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+
+<style>
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete {
+    height: 200px;
+  }
+.ui-autocomplete {
+max-height: 200px;
+}
+
+.ui-autocomplete-category {
+	color:#ec6726;
+    font-weight: bold;
+    padding: .2em .4em;
+    margin: .8em 0 .2em;
+    line-height: 1.5;
+	border-bottom:1px solid #ccc;
+  }
+
+input[type=checkbox] {
+    /*float: left;*/
+    margin-right: 0.4em;
+    width:auto;
+}
+</style>
+
+</head>
+<body>
+	
+		<div class="centered" id="topnav"><!-- 'centered' or 'flushLeft' for this class - depends on the page -->
+    <div class="wrapper">
+        <div class="inside-wrapper">
+            <div class="wrapper-two-sections">	    
+                <div id="site-name" class="section_name"><h1><a href="http://hsl.med.nyu.edu">NYU Health Sciences Libraries</a></h1></div>
+                <div id="site-name2" class="section_name2"><h2><a href="/"></a></h2></div>
+             </div> <!-- end wrapper-two-sections -->
+
+            <!-- logo / home link -->
+            <div id="logo_link">
+				<a href="http://med.nyu.edu"><img alt="Home" src="http://hsl.med.nyu.edu/sites/all/themes/nyuhsl/images/nyulmc_logo.png"></a>
+			</div> <!-- end logo-link -->
+		</div> <!-- end inside-wrapper -->
+	</div> <!-- end wrapper -->
+</div> <!-- end topnav -->
+
+
+<div id="utility">
+  <div id="utilityNavList">
+	<div class="wrapper">
+    <ul class="menu items_min" id="utility_nav"><li class="first"><a href="http://www.med.nyu.edu/">NYULMC Home</a></li>
+		<li class=""><a href="http://hsl.med.nyu.edu/ask-a-librarian">Contact Us</a></li>
+		<li class=""><a href="http://hsl.med.nyu.edu/facbib">Faculty Bibliography</a></li>
+		
+	</ul>   
+
+	
+		
+     	<script type="text/javascript">
+
+			//Width and height
+			var w = 1000;
+			var h = 800;
+
+			//Original data
+			var dataset = {
+		nodes:[{name: ' aifani01' },
+	{name: ' at570' },
+	{name: ' blasem01' },
+	{name: ' bm2' },
+	{name: ' boekej01' },
+	{name: ' braitr01' },
+	{name: ' cardot01' },
+	{name: ' carltj01' },
+	{name: ' chaom01' },
+	{name: ' csp1' },
+	{name: ' das19' },
+	{name: ' dt2' },
+	{name: ' fenyod01' },
+	{name: ' fisheg01' },
+	{name: ' hernae07' },
+	{name: ' hum03' },
+	{name: ' kircht01' },
+	{name: ' lehmar01' },
+	{name: ' lg1' },
+	{name: ' littmd01' },
+	{name: ' lium05' },
+	{name: ' mauram01' },
+	{name: ' neelb01' },
+	{name: ' paganm02' },
+	{name: ' rb133' },
+	{name: ' reinbd01' },
+	{name: ' richat04' },
+	{name: ' rothee02' },
+	{name: ' rs5163' },
+	{name: ' shaoy01' },
+	{name: ' skokj01' },
+	{name: ' sodicd01' },
+	{name: ' wangj24' },
+	{name: ' zhongh03' }
+			],
+
+		edges: [
+		{source : 8	, target : 19},
+{source : 6	, target : 23},
+{source : 17	, target : 19},
+{source : 6	, target : 23},
+{source : 20	, target : 29},
+{source : 20	, target : 29},
+{source : 6	, target : 23},
+{source : 6	, target : 14},
+{source : 14	, target : 23},
+{source : 0	, target : 30},
+{source : 0	, target : 20},
+{source : 0	, target : 14},
+{source : 23	, target : 32},
+{source : 20	, target : 29},
+{source : 20	, target : 29},
+{source : 20	, target : 29},
+{source : 9	, target : 11},
+{source : 14	, target : 32},
+{source : 19	, target : 30},
+{source : 14	, target : 29},
+{source : 20	, target : 29},
+{source : 14	, target : 23},
+{source : 14	, target : 29},
+{source : 14	, target : 29},
+{source : 3	, target : 7},
+{source : 0	, target : 1},
+{source : 19	, target : 24},
+{source : 14	, target : 32},
+{source : 14	, target : 29},
+{source : 12	, target : 32},
+{source : 20	, target : 29},
+{source : 20	, target : 29},
+{source : 20	, target : 29},
+{source : 20	, target : 29},
+{source : 20	, target : 29},
+{source : 20	, target : 29},
+{source : 20	, target : 29},
+{source : 20	, target : 29},
+{source : 19	, target : 24},
+{source : 14	, target : 29},
+{source : 16	, target : 29},
+{source : 6	, target : 23},
+{source : 2	, target : 20},
+{source : 20	, target : 29},
+{source : 20	, target : 29},
+{source : 6	, target : 32},
+{source : 0	, target : 30},
+{source : 14	, target : 23},
+{source : 16	, target : 29},
+{source : 14	, target : 29},
+{source : 2	, target : 20},
+{source : 16	, target : 29},
+{source : 16	, target : 29},
+{source : 0	, target : 30},
+{source : 13	, target : 26},
+{source : 12	, target : 27},
+{source : 14	, target : 29},
+{source : 4	, target : 4},
+{source : 16	, target : 29},
+{source : 6	, target : 27},
+{source : 14	, target : 33},
+{source : 2	, target : 24},
+{source : 6	, target : 32},
+{source : 16	, target : 29},
+{source : 19	, target : 24},
+{source : 0	, target : 1},
+{source : 13	, target : 26},
+{source : 0	, target : 1},
+{source : 12	, target : 27},
+{source : 0	, target : 1},
+{source : 1	, target : 14},
+{source : 24	, target : 30},
+{source : 22	, target : 24},
+{source : 0	, target : 14},
+{source : 16	, target : 29},
+{source : 14	, target : 32},
+{source : 32	, target : 33},
+{source : 14	, target : 33},
+{source : 0	, target : 1},
+{source : 1	, target : 14},
+{source : 14	, target : 33},
+{source : 25	, target : 30},
+{source : 14	, target : 32},
+{source : 5	, target : 20},
+{source : 12	, target : 27},
+{source : 2	, target : 19},
+{source : 19	, target : 24},
+{source : 14	, target : 29},
+{source : 20	, target : 29},
+{source : 0	, target : 19},
+{source : 14	, target : 29},
+{source : 29	, target : 33},
+{source : 24	, target : 30},
+{source : 9	, target : 11},
+{source : 9	, target : 11},
+{source : 9	, target : 11},
+{source : 9	, target : 11}
+
+
+
+		]
+};
+
+
+			//Initialize a default force layout, using the nodes and edges in dataset
+			var force = d3.layout.force()
+								 .nodes(dataset.nodes)
+								 .links(dataset.edges)
+								 .size([w, h])
+								 .linkDistance([200])
+								 .charge([-500])
+								 .start();
+
+			//var colors = d3.scale.ordinal()
+				//			.domain([function(d){return d.name[0];}, d3.max(dataset, function(d){return d.name;})])
+					//		.range(colorbrewer.RdBu[9]);;
+			//p.range()("#580f8b");
+
+			//Create SVG element
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+			
+			//Create edges as lines
+			var edges = svg.selectAll("line")
+				.data(dataset.edges)
+				.enter()
+				.append("line")
+				.style("stroke", "#63666A")
+				.style("stroke-width", 1);
+			
+			//Create nodes as circles
+		var nodes = svg.selectAll("g")
+    .data(dataset.nodes)
+    .enter()
+    .append("g");
+
+nodes.append("circle")
+    .attr("r", 10)
+    .style("fill", "#57068c")
+    .call(force.drag);
+
+nodes.append("text")
+    .attr("x", 12)
+    .attr("dy", ".35em")
+    .text(function (d) { return d.name; })
+	.attr("font-family", "sans-serif")
+		  .attr("font-size", "10px")
+		  .attr("fill", "black");;
+
+//Every time the simulation "ticks", this will be called
+force.on("tick", function () {
+
+    edges.attr("x1", function (d) {return d.source.x; })
+        .attr("y1", function (d) {return d.source.y;  })
+        .attr("x2", function (d) {return d.target.x;  })
+        .attr("y2", function (d) { return d.target.y; });
+
+    // nodes.attr("cx", function(d) { return d.x; })
+    //     .attr("cy", function(d) { return d.y; });
+    nodes.attr("transform", function (d) {
+        return "translate(" + d.x + "," + d.y + ")";
+    });
+
+}); 
+
+		</script>
+		
+	</div> <!--end of wrapper -->
+  </div><!--end of utilityNavList -->
+</div><!--end of utility -->
+<h1>Sample Collaborations Using D3</h1>
+	<P>This is a Force diagram displaying the connections between 34 individuals. This was done as a proof of concept for hosting collaborations visualizations in an online framework. D3 is an open source Javascript library for visualization. </p>
+</body>
+</html>
+
